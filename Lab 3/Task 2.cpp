@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+class List {
+private:
+    int arr[10];//Shan_72387_BSAI
+    int size;
+    int n;//Shan_72387_BSAI
+
+public:
+    List() {
+        size = 0;//Shan_72387_BSAI
+    } 
+
+    void input() {
+        cout << "Enter size: ";
+        cin >> n;//Shan_72387_BSAI
+        size = n;
+        cout << "Enter " << size << " numbers: ";
+        for (int i = 0; i < size; i++) {
+            cin >> arr[i];//Shan_72387_BSAI
+        }
+    }
+
+    void remove() {
+        int position;//Shan_72387_BSAI
+        cout << "Enter index to delete: ";
+        cin >> position;//Shan_72387_BSAI
+
+        for (int i = position; i < size - 1; i++) {
+            arr[i] = arr[i + 1];
+        }
+        size--; 
+    }
+//Shan_72387_BSAI
+    void display() {
+        cout << "List: ";
+        for (int i = 0; i < size; i++) {
+            cout << arr[i] << " ";//Shan_72387_BSAI
+        }
+        cout << endl;
+    }
+//Shan_72387_BSAI
+    int Length() {
+        return size;
+    }//Shan_72387_BSAI
+};
+
+int main() {
+    List list;
+    list.input();
+    list.display();
+    list.remove();//Shan_72387_BSAI
+    list.display();
+    cout << "Length of list is: " << list.Length() << endl;
+//Shan_72387_BSAI
+    return 0;
+}

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Insertion Engine</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --shift: #f59e0b;
+            --target: #10b981;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 { margin-bottom: 5px; color: #38bdf8; }
+        p.subtitle { color: #94a3b8; margin-bottom: 25px; }
+
+        .workspace {
+            display: flex;
+            gap: 30px;
+            max-width: 1050px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Left side: Visualizer */
+        .visualizer-card {
+            background-color: var(--card);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            min-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .array-board {
+            display: flex;
+            gap: 12px;
+            margin: 40px 0 20px 0;
+            min-height: 120px;
+            align-items: flex-end;
+        }
+
+        .cell-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 65px;
+            position: relative;
+        }
+
+        .pointer-marker {
+            position: absolute;
+            top: -30px;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: none;
+        }
+        .marker-dest { background-color: var(--shift); color: black; display: block; }
+        .marker-src { background-color: #38bdf8; color: black; display: block; }
+        .marker-insert { background-color: var(--target); color: white; display: block; }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #475569;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+            background-color: #334155;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .index-label {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* Active styling */
+        .cell.shifting {
+            border-color: var(--shift);
+            background-color: rgba(245, 158, 11, 0.2);
+            transform: translateY(-5px);
+        }
+        .cell.inserted {
+            border-color: var(--target);
+            background-color: rgba(16, 185, 129, 0.25);
+            color: #34d399;
+            transform: scale(1.08);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled { background-color: #475569; cursor: not-allowed; }
+        button.secondary { background-color: #334155; }
+
+        .status-box {
+            margin-top: 20px;
+            width: 90%;
+            background: #0f172a;
+            border-left: 4px solid var(--primary);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        /* Right side: Code panel */
+        .code-card {
+            background-color: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            flex: 0.8;
+            min-width: 350px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .code-line {
+            padding: 3px 8px;
+            border-radius: 4px;
+            white-space: pre;
+        }
+        .code-line.active {
+            background-color: #fbbf24;
+            color: #0f172a;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>C++ Array Right-Shift Visualizer</h2>
+    <p class="subtitle">Visual trace of: inserting <b>25</b> at index <b>position = 2</b></p>
+
+    <div class="workspace">
+        <!-- Visual Simulation -->
+        <div class="visualizer-card">
+            <div class="array-board" id="board"></div>
+
+            <div class="controls">
+                <button id="stepBtn" onclick="executeStep()">Step-by-Step</button>
+                <button class="secondary" id="autoBtn" onclick="toggleAutoPlay()">Auto Play</button>
+                <button class="secondary" onclick="resetAll()">Reset</button>
+            </div>
+
+            <div class="status-box" id="statusLog">Ready. Click "Step-by-Step" or "Auto Play".</div>
+        </div>
+
+        <!-- C++ Code Viewer with Live Highlight -->
+        <div class="code-card">
+            <h4 style="margin-top:0; color:#94a3b8; border-bottom:1px solid #334155; padding-bottom:8px;">Live C++ Execution</h4>
+            <div class="code-line" id="line1">int arr[6] = {10, 20, 30, 40, 50};</div>
+            <div class="code-line" id="line2">int n = 5, position = 2, value = 25;</div>
+            <div class="code-line" id="line3">for (int i = n; i > position; i--) {</div>
+            <div class="code-line" id="line4">    arr[i] = arr[i - 1]; // Right shift</div>
+            <div class="code-line" id="line5">}</div>
+            <div class="code-line" id="line6">arr[position] = value;</div>
+            <div class="code-line" id="line7">n++;</div>
+            <div class="code-line" id="line8">// Loop finished. Elements printed.</div>
+        </div>
+    </div>
+
+    <script>
+        // C++ Exact State
+        const originalData = [10, 20, 30, 40, 50, ""];
+        let arr = [...originalData];
+        const n = 5;
+        const position = 2;
+        const value = 25;
+        let i = n; // Starts at 5
+        let phase = 'SHIFT'; // 'SHIFT', 'INSERT', 'DONE'
+        let autoPlayTimer = null;
+
+        function render(destIdx = -1, srcIdx = -1, insertedIdx = -1) {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+
+            for (let idx = 0; idx < 6; idx++) {
+                const cellContainer = document.createElement('div');
+                cellContainer.className = 'cell-container';
+
+                // Pointer Markers (Labels)
+                if (idx === destIdx) {
+                    const destTag = document.createElement('div');
+                    destTag.className = 'pointer-marker marker-dest';
+                    destTag.innerText = `i (${idx})`;
+                    cellContainer.appendChild(destTag);
+                } else if (idx === srcIdx) {
+                    const srcTag = document.createElement('div');
+                    srcTag.className = 'pointer-marker marker-src';
+                    srcTag.innerText = `i-1 (${idx})`;
+                    cellContainer.appendChild(srcTag);
+                } else if (idx === insertedIdx) {
+                    const insTag = document.createElement('div');
+                    insTag.className = 'pointer-marker marker-insert';
+                    insTag.innerText = 'New';
+                    cellContainer.appendChild(insTag);
+                }
+
+                // Cell
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.innerText = arr[idx];
+
+                if (idx === destIdx) cell.classList.add('shifting');
+                if (idx === insertedIdx) cell.classList.add('inserted');
+
+                // Label
+                const label = document.createElement('div');
+                label.className = 'index-label';
+                label.innerText = `[${idx}]`;
+
+                cellContainer.appendChild(cell);
+                cellContainer.appendChild(label);
+                board.appendChild(cellContainer);
+            }
+        }
+
+        function highlightLine(lineId) {
+            document.querySelectorAll('.code-line').forEach(el => el.classList.remove('active'));
+            if(lineId) document.getElementById(lineId).classList.add('active');
+        }
+
+        function executeStep() {
+            const log = document.getElementById('statusLog');
+
+            if (phase === 'SHIFT') {
+                highlightLine('line4');
+                if (i > position) {
+                    arr[i] = arr[i - 1];
+                    render(i, i - 1, -1);
+                    log.innerText = `Loop Iteration (i=${i}): arr[${i}] = arr[${i-1}] -> Copied ${arr[i]} into index ${i}.`;
+                    i--;
+                } else {
+                    phase = 'INSERT';
+                    highlightLine('line6');
+                    log.innerText = `Loop Condition Failed (i = ${i} <= ${position}). Exiting loop. Next: insertion.`;
+                }
+            } else if (phase === 'INSERT') {
+                arr[position] = value;
+                render(-1, -1, position);
+                highlightLine('line6');
+                log.innerText = `Execution: arr[${position}] = ${value}. Space filled successfully!`;
+                phase = 'DONE';
+            } else if (phase === 'DONE') {
+                highlightLine('line8');
+                render(-1, -1, -1);
+                log.innerText = `Final Array complete: [${arr.join(', ')}]. Memory updated.`;
+                document.getElementById('stepBtn').disabled = true;
+                if (autoPlayTimer) toggleAutoPlay();
+            }
+        }
+
+        function toggleAutoPlay() {
+            const btn = document.getElementById('autoBtn');
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = null;
+                btn.innerText = 'Auto Play';
+            } else {
+                btn.innerText = 'Pause';
+                autoPlayTimer = setInterval(() => {
+                    if (phase === 'DONE') {
+                        clearInterval(autoPlayTimer);
+                        autoPlayTimer = null;
+                        btn.innerText = 'Auto Play';
+                    } else {
+                        executeStep();
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetAll() {
+            if (autoPlayTimer) toggleAutoPlay();
+            arr = [...originalData];
+            i = n;
+            phase = 'SHIFT';
+            document.getElementById('stepBtn').disabled = false;
+            highlightLine(null);
+            document.getElementById('statusLog').innerText = 'Reset done. Click "Step-by-Step" to trace.';
+            render();
+        }
+
+        // Initial setup
+        render();
+    </script>
+</body>
+</html>
