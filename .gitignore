@@ -1,0 +1,15 @@
+# C++ build products and generated files
+*.exe
+*.o
+*.obj
+*.out
+*.pdb
+*.dll
+*.a
+*.so
+*.dSYM/
+build/
+cmake-build-*/
+.vscode/
+.DS_Store
+Thumbs.db
