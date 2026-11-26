@@ -17,11 +17,14 @@ This repository contains original C++ lab work, course assignments, practice pro
 | [Lab 06](lab-06/) | Queue, class/stack practice and a lab task, plus DOCX/PDF submissions |
 | [Lab 07](lab-07/) | Binary search, selection sort, bubble sort and combined sorting/search exercises |
 | [Lab 08](lab-08/) | Graph representation using an undirected adjacency list, C++ source and report PDF |
+| [Lab 09](lab-09/) | Undirected graph adjacency list, BFS (queue) and DFS (recursion), C++ source |
 | [Week 11](week-11/) | Uploaded AVL task source and lab report PDF |
 
-The uploaded **Week 12** folder contained only `tempCodeRunnerFile.exe`, a generated executable with no associated source file. It has therefore not been included on the cleaned `main` branch. Original bytes remain on the backup branch. Lab 09–10 have not yet been uploaded.
+The uploaded **Week 12** folder contained only `tempCodeRunnerFile.exe`, a generated executable with no associated source file. It has therefore not been included on the cleaned `main` branch. Original bytes remain on the backup branch.
 
 **Lab 08 naming note:** The uploaded report labels the work as **Week 11**, while its source filename is `Lab_12_Graph_Adjacency_List.cpp`. It is stored in `lab-08/` as the next lab upload in this repository; the report's original Week 11 label is documented in that folder.
+
+**Lab 09 naming/indexing note:** The uploaded report labels the work as **Week 14** and uses zero-based vertex numbering in its printed code. The separately uploaded C++ source uses one-based numbering. Both original files were reviewed; the difference is documented in [Lab 09](lab-09/README.md). The report PDF has not yet been added to this repository.
 
 ## Assignments
 
@@ -39,16 +42,16 @@ The uploaded **Week 12** folder contained only `tempCodeRunnerFile.exe`, a gener
 Each original `.cpp` is generally an independent exercise. Open the file in VS Code or another C++ IDE, or use a compatible C++ compiler. For example:
 
 ```bash
-g++ -std=c++11 lab-08/Lab_12_Graph_Adjacency_List.cpp -o graph-adjacency-list
-./graph-adjacency-list
+g++ -std=c++11 lab-09/Graph_BFS_DFS.cpp -o graph-bfs-dfs
+./graph-bfs-dfs
 ```
 
-Windows users can run the corresponding `.exe` after compiling. Source compilation and runtime behavior have **not** been independently tested during this repository reorganization.
+Windows users can run the corresponding `.exe` after compiling.
 
 ## Cleanup, provenance, and original files
 
-- **44 original C++ source files** retained byte-for-byte, plus the newly added Lab 08 C++ source.
-- **7 original Word reports**, **10 original PDFs**, and **1 HTML visualizer** retained byte-for-byte.
+- **44 original C++ source files** retained byte-for-byte, plus the newly added Lab 08 and Lab 09 C++ sources.
+- **7 original Word reports**, **10 original PDFs**, and **1 HTML visualizer** retained byte-for-byte from the initial reorganization.
 - The Lab 08 report PDF in this repository is a compact re-rendered copy of the uploaded report's code and output content; it is not byte-identical to the uploaded PDF.
 - **37 generated `.exe` binaries** removed from the current main branch; they are build artifacts, not source.
 - Original `README.md` was replaced with this project index.
