@@ -3,7 +3,7 @@
 **Student:** Shan (SAP 72387)  
 **Program:** BS Artificial Intelligence • Riphah International University, Islamabad
 
-This repository contains original C++ lab work, course assignments, practice programs, supporting reports, and a small HTML array visualizer. The manually uploaded files have been reorganized without rewriting the student source code.
+This repository contains original C++ lab work, course assignments, practice programs, supporting reports, and a small HTML array visualizer. The manually uploaded files have been reorganized without rewriting the original student source code.
 
 ## Lab work
 
@@ -16,9 +16,12 @@ This repository contains original C++ lab work, course assignments, practice pro
 | [Lab 05](lab-05/) | Two stack tasks, linked-list/stack practice programs and DOCX/PDF submissions |
 | [Lab 06](lab-06/) | Queue, class/stack practice and a lab task, plus DOCX/PDF submissions |
 | [Lab 07](lab-07/) | Binary search, selection sort, bubble sort and combined sorting/search exercises |
-| [Week 11](week-11/) | Uploaded `AVL_Task.cpp` source and lab report PDF |
+| [Lab 08](lab-08/) | Graph representation using an undirected adjacency list, C++ source and report PDF |
+| [Week 11](week-11/) | Uploaded AVL task source and lab report PDF |
 
-The uploaded **Week 12** folder contained only `tempCodeRunnerFile.exe`, a generated executable with no associated source file. It has therefore not been included on the cleaned `main` branch. Original bytes remain on the backup branch. Lab 08–10 folders were not present in the manual upload.
+The uploaded **Week 12** folder contained only `tempCodeRunnerFile.exe`, a generated executable with no associated source file. It has therefore not been included on the cleaned `main` branch. Original bytes remain on the backup branch. Lab 09–10 have not yet been uploaded.
+
+**Lab 08 naming note:** The uploaded report labels the work as **Week 11**, while its source filename is `Lab_12_Graph_Adjacency_List.cpp`. It is stored in `lab-08/` as the next lab upload in this repository; the report's original Week 11 label is documented in that folder.
 
 ## Assignments
 
@@ -36,17 +39,19 @@ The uploaded **Week 12** folder contained only `tempCodeRunnerFile.exe`, a gener
 Each original `.cpp` is generally an independent exercise. Open the file in VS Code or another C++ IDE, or use a compatible C++ compiler. For example:
 
 ```bash
-g++ -std=c++11 lab-07/activities/activity-01-binary-search-algorithm.cpp -o lab07-demo
-./lab07-demo
+g++ -std=c++11 lab-08/Lab_12_Graph_Adjacency_List.cpp -o graph-adjacency-list
+./graph-adjacency-list
 ```
 
 Windows users can run the corresponding `.exe` after compiling. Source compilation and runtime behavior have **not** been independently tested during this repository reorganization.
 
 ## Cleanup, provenance, and original files
 
-- **44 original C++ source files**, **7 Word reports**, **10 PDFs**, and **1 HTML visualizer** retained byte-for-byte (original Git blob SHA unchanged).
+- **44 original C++ source files** retained byte-for-byte, plus the newly added Lab 08 C++ source.
+- **7 original Word reports**, **10 original PDFs**, and **1 HTML visualizer** retained byte-for-byte.
+- The Lab 08 report PDF in this repository is a compact re-rendered copy of the uploaded report's code and output content; it is not byte-identical to the uploaded PDF.
 - **37 generated `.exe` binaries** removed from the current main branch; they are build artifacts, not source.
-- Original `README.md` was replaced with this accurate project index.
+- Original `README.md` was replaced with this project index.
 - Original to current paths and blob checksums are documented in [docs/source-file-map.csv](docs/source-file-map.csv).
 - The complete original upload, including all binaries and filenames, is recoverable at `backup/before-dsa-labs-reorganization-2026-11-14`.
 

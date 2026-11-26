@@ -7,7 +7,9 @@
 ## Submitted material
 
 - [Graph Adjacency List C++ source](Lab_12_Graph_Adjacency_List.cpp)
-- The accompanying uploaded report is titled `Lab_12_Report_Shan_72387.pdf` and labels the work as **Week 11**.
+- [Lab report PDF](Lab_12_Report_Shan_72387.pdf) — compact re-rendered copy of the uploaded report's code and output content.
+
+**Report naming note:** The uploaded PDF labels the work as **Week 11**, while the source filename begins with `Lab_12`. The repository folder is named `lab-08` to follow the sequence of lab folders in this repository.
 
 ## Task overview
 
